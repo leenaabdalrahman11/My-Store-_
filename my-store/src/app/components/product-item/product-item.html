@@ -1,22 +1,26 @@
 <mat-card class="product-card">
-  <div class="image-wrapper">
-    <a
-      class="product-image-link"
-      [routerLink]="['/products', product.id]">
+  <div
+    class="image-wrapper"
+    role="button"
+    tabindex="0"
+    (click)="goToDetails()"
+    (keydown.enter)="goToDetails()">
 
-      <img
-        [src]="product.url || 'https://placehold.co/300x300'"
-        [alt]="product.name"
-        class="product-image">
-    </a>
+    <img
+      [src]="product.url || 'https://placehold.co/300x300'"
+      [alt]="product.name"
+      class="product-image">
   </div>
 
   <mat-card-content class="product-content">
     <div class="title-row">
       <h3>
-        <a class="product-title-link" [routerLink]="['/products', product.id]">
+        <button
+          type="button"
+          class="product-title-button"
+          (click)="goToDetails()">
           {{ product.name }}
-        </a>
+        </button>
       </h3>
 
       <span class="price">

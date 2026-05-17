@@ -56,14 +56,16 @@ export class Cart implements OnInit {
     }, 0);
   }
 
-  removeItem(productId: number | undefined): void {
-    if (productId === undefined) {
-      return;
-    }
-
-    this.cartService.removeFromCart(productId);
-    this.loadCart();
+removeItem(productId: number | undefined): void {
+  if (productId === undefined) {
+    return;
   }
+
+  this.cartService.removeFromCart(productId);
+  this.loadCart();
+
+  alert('Product removed from cart');
+}
 
   increaseQuantity(productId: number | undefined): void {
     if (productId === undefined) {

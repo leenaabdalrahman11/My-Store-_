@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, map, tap } from 'rxjs';
+
 import { Product } from '../models/product';
 
 @Injectable({
@@ -8,14 +9,32 @@ import { Product } from '../models/product';
 })
 export class ProductService {
   private productsUrl = 'http://localhost:3000/products';
+  private productsCache: Product[] = [];
 
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.productsUrl);
+    if (this.productsCache.length > 0) {
+      return of(this.productsCache);
+    }
+
+    return this.http.get<Product[]>(this.productsUrl).pipe(
+      tap((products: Product[]) => {
+        this.productsCache = products || [];
+      })
+    );
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.productsUrl}/${id}`);
+  getProductById(id: number): Observable<Product | undefined> {
+    if (this.productsCache.length > 0) {
+      const product = this.productsCache.find(item => Number(item.id) === id);
+      return of(product);
+    }
+
+    return this.getProducts().pipe(
+      map((products: Product[]) => {
+        return products.find(item => Number(item.id) === id);
+      })
+    );
   }
 }

@@ -181,3 +181,21 @@
     justify-content: center;
   }
 }
+.image-wrapper {
+  cursor: pointer;
+}
+
+.product-title-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 850;
+  cursor: pointer;
+  text-align: left;
+}
+
+.product-title-button:hover {
+  color: #1565c0;
+}

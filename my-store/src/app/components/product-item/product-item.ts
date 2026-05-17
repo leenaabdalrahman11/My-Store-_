@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -10,7 +11,6 @@ import { Product } from '../../models/product';
   selector: 'app-product-item',
   imports: [
     CommonModule,
-    RouterLink,
     MatCardModule,
     MatButtonModule
   ],
@@ -21,6 +21,16 @@ export class ProductItem {
   @Input() product!: Product;
 
   @Output() addProduct = new EventEmitter<Product>();
+
+  constructor(private router: Router) {}
+
+  goToDetails(): void {
+    if (!this.product?.id) {
+      return;
+    }
+
+    this.router.navigate(['/products', this.product.id]);
+  }
 
   increaseQuantity(): void {
     this.product.quantity = (this.product.quantity || 1) + 1;

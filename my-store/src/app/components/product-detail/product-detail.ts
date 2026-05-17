@@ -39,20 +39,29 @@ export class ProductDetail implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const productId = Number(this.route.snapshot.paramMap.get('id'));
+    this.route.paramMap.subscribe(params => {
+      const productId = Number(params.get('id'));
 
-    this.loading = true;
+      this.product = undefined;
+      this.quantity = 1;
+      this.loading = true;
 
-    this.productService.getProductById(productId).subscribe({
-      next: (product: Product) => {
-        this.product = product;
+      if (!productId) {
         this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading product details:', error);
-        this.product = undefined;
-        this.loading = false;
+        return;
       }
+
+      this.productService.getProductById(productId).subscribe({
+        next: (product: Product | undefined) => {
+          this.product = product;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error loading product details:', error);
+          this.product = undefined;
+          this.loading = false;
+        }
+      });
     });
   }
 
@@ -61,7 +70,12 @@ export class ProductDetail implements OnInit {
       return;
     }
 
-    this.cartService.addToCart(this.product);
+    const productToAdd: Product = {
+      ...this.product,
+      quantity: this.quantity
+    };
+
+    this.cartService.addToCart(productToAdd);
     alert(`${this.product.name} has been added to your cart.`);
   }
 }

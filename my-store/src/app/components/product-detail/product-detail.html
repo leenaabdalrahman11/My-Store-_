@@ -25,16 +25,17 @@
       <div class="quantity-box">
         <label for="quantity">Quantity</label>
 
-        <select
-          id="quantity"
-          [(ngModel)]="quantity"
-          class="quantity-select">
-          <option
-            *ngFor="let amount of quantities"
-            [value]="amount">
-            {{ amount }}
-          </option>
-        </select>
+<select
+  id="quantity"
+  [(ngModel)]="quantity"
+  (ngModelChange)="quantity = $event"
+  class="quantity-select">
+  <option
+    *ngFor="let amount of quantities"
+    [value]="amount">
+    {{ amount }}
+  </option>
+</select>
       </div>
 
       <div class="actions">
@@ -60,8 +61,10 @@
     <h2>Product not found</h2>
     <p>The product you are looking for does not exist.</p>
 
-    <a class="cart-button" routerLink="/">
-      Back to Products
-    </a>
+<a
+  class="back-button"
+  routerLink="/">
+  Back to Products
+</a>
   </div>
 </section>

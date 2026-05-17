@@ -23,6 +23,7 @@ export class ProductList implements OnInit {
   products: Product[] = [];
   currentPage = 1;
   itemsPerPage = 8;
+  loading = false;
 
   constructor(
     private productService: ProductService,
@@ -30,14 +31,33 @@ export class ProductList implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.loading = true;
+
     this.productService.getProducts().subscribe({
-      next: (products: Product[]) => {
-        this.products = products || [];
+      next: (response: any) => {
+        console.log('Products response:', response);
+
+        if (Array.isArray(response)) {
+          this.products = response;
+        } else if (Array.isArray(response.products)) {
+          this.products = response.products;
+        } else if (Array.isArray(response.data)) {
+          this.products = response.data;
+        } else {
+          this.products = [];
+        }
+
         this.currentPage = 1;
+        this.loading = false;
       },
       error: (error) => {
         console.error('Error loading products:', error);
         this.products = [];
+        this.loading = false;
       }
     });
   }
