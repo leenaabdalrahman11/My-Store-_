@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 import { Router, RouterLink } from '@angular/router';
 
@@ -50,12 +50,52 @@ export class Cart implements OnInit {
     this.total = this.cartService.getTotal();
   }
 
+  get totalItems(): number {
+    return this.items.reduce((total, item) => {
+      return total + item.quantity;
+    }, 0);
+  }
+
   removeItem(productId: number | undefined): void {
+    if (productId === undefined) {
+      return;
+    }
+
     this.cartService.removeFromCart(productId);
     this.loadCart();
   }
 
-  submitOrder(): void {
+  increaseQuantity(productId: number | undefined): void {
+    if (productId === undefined) {
+      return;
+    }
+
+    const item = this.items.find(cartItem => cartItem.product.id === productId);
+
+    if (item) {
+      item.quantity += 1;
+      this.total = this.cartService.getTotal();
+    }
+  }
+
+  decreaseQuantity(productId: number | undefined): void {
+    if (productId === undefined) {
+      return;
+    }
+
+    const item = this.items.find(cartItem => cartItem.product.id === productId);
+
+    if (item && item.quantity > 1) {
+      item.quantity -= 1;
+      this.total = this.cartService.getTotal();
+    }
+  }
+
+  submitOrder(form: NgForm): void {
+    if (form.invalid) {
+      return;
+    }
+
     const orderTotal = this.total;
     const customerName = this.fullName;
 

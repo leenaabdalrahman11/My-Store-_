@@ -22,67 +22,11 @@
   </div>
 
   <div class="product-list" *ngIf="products.length > 0">
-    <mat-card class="product-card" *ngFor="let product of paginatedProducts">
-<div class="image-wrapper">
-  <a
-    class="product-image-link"
-    [routerLink]="['/products', product.id]">
-
-    <img
-      [src]="product.url || 'https://placehold.co/300x300'"
-      [alt]="product.name"
-      class="product-image">
-  </a>
-</div>
-
-      <mat-card-content class="product-content">
-        <div class="title-row">
-          <h3>
-            <a class="product-title-link" [routerLink]="['/products', product.id]">
-              {{ product.name }}
-            </a>
-          </h3>
-
-          <span class="price">
-            ${{ product.price }}
-          </span>
-        </div>
-
-        <p class="description">
-          {{ product.description || 'No description available.' }}
-        </p>
-      </mat-card-content>
-
-      <mat-card-actions class="card-actions">
-        <div class="quantity-control">
-          <button
-            class="quantity-btn"
-            type="button"
-            (click)="decreaseQuantity(product)">
-            −
-          </button>
-
-          <span class="quantity">
-            {{ product.quantity || 1 }}
-          </span>
-
-          <button
-            class="quantity-btn"
-            type="button"
-            (click)="increaseQuantity(product)">
-            +
-          </button>
-        </div>
-
-        <button
-          mat-flat-button
-          color="primary"
-          class="cart-button"
-          (click)="addToCart(product)">
-          Add to Cart
-        </button>
-      </mat-card-actions>
-    </mat-card>
+    <app-product-item
+      *ngFor="let product of paginatedProducts"
+      [product]="product"
+      (addProduct)="addToCart($event)">
+    </app-product-item>
   </div>
 
   <div class="empty-state" *ngIf="products.length === 0">

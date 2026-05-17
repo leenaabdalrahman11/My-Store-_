@@ -8,7 +8,11 @@
     <mat-card>
       <h3>Your cart is empty</h3>
       <p>Add products to your cart and they will appear here.</p>
-      <button mat-flat-button color="primary" routerLink="/">
+
+      <button
+        mat-flat-button
+        color="primary"
+        routerLink="/">
         Continue Shopping
       </button>
     </mat-card>
@@ -26,21 +30,47 @@
 
           <div class="item-info">
             <h3>{{ item.product.name }}</h3>
-            <p>{{ item.product.description || 'No description available.' }}</p>
+
+            <p>
+              {{ item.product.description || 'No description available.' }}
+            </p>
 
             <div class="item-meta">
               <span>Price: ${{ item.product.price }}</span>
-              <span>Qty: {{ item.quantity }}</span>
+
+              <div class="cart-quantity">
+                <span>Qty:</span>
+
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="decreaseQuantity(item.product.id)">
+                  -
+                </button>
+
+                <strong>{{ item.quantity }}</strong>
+
+                <button
+                  mat-stroked-button
+                  type="button"
+                  (click)="increaseQuantity(item.product.id)">
+                  +
+                </button>
+              </div>
             </div>
           </div>
 
           <div class="item-total">
             <span>Subtotal</span>
-            <strong>${{ item.product.price * item.quantity }}</strong>
+
+            <strong>
+              ${{ item.product.price * item.quantity }}
+            </strong>
 
             <button
               mat-stroked-button
               color="warn"
+              type="button"
               (click)="removeItem(item.product.id)">
               Remove
             </button>
@@ -54,7 +84,7 @@
 
       <div class="summary-row">
         <span>Items</span>
-        <strong>{{ items.length }}</strong>
+        <strong>{{ totalItems }}</strong>
       </div>
 
       <div class="summary-row">
@@ -69,69 +99,76 @@
         <strong>${{ total }}</strong>
       </div>
 
-<form #checkoutForm="ngForm" (ngSubmit)="submitOrder()" class="checkout-form">
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Full Name</mat-label>
-    <input
-      matInput
-      type="text"
-      name="fullName"
-      required
-      minlength="3"
-      [(ngModel)]="fullName"
-      (ngModelChange)="fullName = $event"
-      #fullNameInput="ngModel">
+      <form
+        #checkoutForm="ngForm"
+        (ngSubmit)="submitOrder(checkoutForm)"
+        class="checkout-form">
 
-    <mat-error *ngIf="fullNameInput.invalid && fullNameInput.touched">
-      Full name must be at least 3 characters.
-    </mat-error>
-  </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name</mat-label>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Address</mat-label>
-    <input
-      matInput
-      type="text"
-      name="address"
-      required
-      minlength="6"
-      [(ngModel)]="address"
-      (ngModelChange)="address = $event"
-      #addressInput="ngModel">
+          <input
+            matInput
+            type="text"
+            name="fullName"
+            required
+            minlength="3"
+            [(ngModel)]="fullName"
+            (ngModelChange)="fullName = $event"
+            #fullNameInput="ngModel">
 
-    <mat-error *ngIf="addressInput.invalid && addressInput.touched">
-      Address must be at least 6 characters.
-    </mat-error>
-  </mat-form-field>
+          <mat-error *ngIf="fullNameInput.invalid && fullNameInput.touched">
+            Full name must be at least 3 characters.
+          </mat-error>
+        </mat-form-field>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Credit Card Number</mat-label>
-    <input
-      matInput
-      type="text"
-      name="creditCard"
-      required
-      minlength="16"
-      maxlength="16"
-      pattern="[0-9]*"
-      [(ngModel)]="creditCard"
-      (ngModelChange)="creditCard = $event"
-      #creditCardInput="ngModel">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Address</mat-label>
 
-    <mat-error *ngIf="creditCardInput.invalid && creditCardInput.touched">
-      Credit card number must be 16 digits.
-    </mat-error>
-  </mat-form-field>
+          <input
+            matInput
+            type="text"
+            name="address"
+            required
+            minlength="6"
+            [(ngModel)]="address"
+            (ngModelChange)="address = $event"
+            #addressInput="ngModel">
 
-  <button
-    mat-flat-button
-    color="primary"
-    class="checkout-button"
-    type="submit"
-    [disabled]="checkoutForm.invalid">
-    Checkout
-  </button>
-</form>
+          <mat-error *ngIf="addressInput.invalid && addressInput.touched">
+            Address must be at least 6 characters.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Credit Card Number</mat-label>
+
+          <input
+            matInput
+            type="text"
+            name="creditCard"
+            required
+            minlength="16"
+            maxlength="16"
+            pattern="[0-9]*"
+            [(ngModel)]="creditCard"
+            (ngModelChange)="creditCard = $event"
+            #creditCardInput="ngModel">
+
+          <mat-error *ngIf="creditCardInput.invalid && creditCardInput.touched">
+            Credit card number must be 16 digits.
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="checkout-button"
+          type="submit"
+          [disabled]="checkoutForm.invalid">
+          Checkout
+        </button>
+      </form>
     </mat-card>
   </div>
 </section>

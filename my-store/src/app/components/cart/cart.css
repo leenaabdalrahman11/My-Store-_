@@ -203,3 +203,19 @@
     align-items: stretch;
   }
 }
+
+.cart-quantity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-quantity button {
+  min-width: 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  line-height: 1;
+  border-radius: 50%;
+  font-size: 14px;
+}
