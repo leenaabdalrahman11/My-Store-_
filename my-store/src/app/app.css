@@ -1,0 +1,92 @@
+.main-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 72px;
+  padding: 0 40px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
+  font-size: 22px;
+  box-shadow: 0 8px 18px rgba(25, 118, 210, 0.28);
+}
+
+.brand-text {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #111827;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-links a {
+  height: 42px;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.active-link {
+  background: #e8f1ff;
+  color: #1565c0;
+}
+
+.active-cart {
+  box-shadow: 0 8px 18px rgba(25, 118, 210, 0.25);
+}
+
+.app-content {
+  min-height: calc(100vh - 72px);
+}
+
+@media (max-width: 600px) {
+  .main-navbar {
+    height: auto;
+    padding: 14px 18px;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .brand-text {
+    font-size: 22px;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-links a {
+    flex: 1;
+    justify-content: center;
+  }
+}

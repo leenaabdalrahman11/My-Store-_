@@ -1,0 +1,67 @@
+<section class="loading" *ngIf="loading">
+  <p>Loading product details...</p>
+</section>
+
+<section class="product-detail-page" *ngIf="!loading && product">
+  <div class="detail-layout">
+    <div class="image-section">
+      <img
+        [src]="product.url || 'https://placehold.co/500x500'"
+        [alt]="product.name"
+        class="detail-image">
+    </div>
+
+    <div class="info-section">
+      <h2>{{ product.name }}</h2>
+
+      <p class="price">
+        ${{ product.price }}
+      </p>
+
+      <p class="description">
+        {{ product.description || 'No description available for this product.' }}
+      </p>
+
+      <div class="quantity-box">
+        <label for="quantity">Quantity</label>
+
+        <select
+          id="quantity"
+          [(ngModel)]="quantity"
+          class="quantity-select">
+          <option
+            *ngFor="let amount of quantities"
+            [value]="amount">
+            {{ amount }}
+          </option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button
+          class="cart-button"
+          type="button"
+          (click)="addToCart()">
+          Add to Cart
+        </button>
+
+        <a
+          class="back-button"
+          routerLink="/">
+          Back to Products
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="not-found" *ngIf="!loading && !product">
+  <div class="not-found-card">
+    <h2>Product not found</h2>
+    <p>The product you are looking for does not exist.</p>
+
+    <a class="cart-button" routerLink="/">
+      Back to Products
+    </a>
+  </div>
+</section>

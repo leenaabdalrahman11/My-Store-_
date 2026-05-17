@@ -1,0 +1,30 @@
+<mat-toolbar class="main-navbar">
+  <div class="brand" routerLink="/">
+    <span class="brand-text">MyStore</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  <nav class="nav-links">
+    <a
+      mat-button
+      routerLink="/"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }">
+      Products
+    </a>
+
+    <a
+      mat-flat-button
+      color="primary"
+      routerLink="/cart"
+      routerLinkActive="active-cart">
+      Cart
+    </a>
+  </nav>
+  
+</mat-toolbar>
+
+<main class="app-content">
+  <router-outlet></router-outlet>
+</main>
